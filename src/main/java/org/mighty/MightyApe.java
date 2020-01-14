@@ -5,6 +5,7 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
@@ -25,7 +26,7 @@ import com.google.common.io.Files;
 
 public class MightyApe {
 	
-	public static String getData(int rowNo, int cellno) throws Throwable {
+	private static String getData(int rowNo, int cellno) throws Throwable {
 		String v = null;
 		File loc = new File("C:\\Users\\Prasanth\\eclipse-workspace\\Tester1\\Excel\\Book1.xlsx");
 		FileInputStream stream = new FileInputStream(loc);
@@ -54,40 +55,42 @@ public class MightyApe {
 			r.keyRelease(KeyEvent.VK_ENTER);
 			
 			
+	
+			
 			WebElement element2 = Driver.findElement(By.xpath("//a[text()='Gorilla 32\" Smart LED TV']"));
 			element2.click();
 			Thread.sleep(2000);
 			WebElement element3 = Driver.findElement(By.xpath("//button[@class='trolley-button']"));
 			element3.click();
 			Thread.sleep(2000);
-			WebElement element4 = Driver.findElement(By.xpath("//a[@class='navbar-btn help dropdown-toggle']"));
-			element4.click();
-			WebElement element5 = Driver.findElement(By.xpath("//a[text()='Help Centre']"));
-			element5.click();
+			WebElement element6 = Driver.findElement(By.xpath("//button[@name='checkout']"));
+			element6.click();
+			Driver.findElement(By.xpath("//input[@type='email']")).sendKeys(getData(0,0));
+			Driver.findElement(By.xpath("//input[@type='password']")).sendKeys(getData(0,1));
+			
+			
+			
+			WebElement element4 = Driver.findElement(By.xpath("//a[@class='btn btn-action']"));
+			
+			Actions acc = new Actions(Driver);
+			acc.contextClick(element4).perform();
+			Thread.sleep(2000);
+			
+			Robot ro = new Robot();
+			ro.keyPress(KeyEvent.VK_DOWN);
+			ro.keyRelease(KeyEvent.VK_DOWN);
+			ro.keyPress(KeyEvent.VK_ENTER);
+			ro.keyRelease(KeyEvent.VK_ENTER);
 		
-			//parent window
-			String Parent = Driver.getWindowHandle();
-			System.out.println(Parent);
+			//Handling Windows
 			
-			Set<String> allwindows = Driver.getWindowHandles();
-			System.out.println(allwindows);
-			
-			
-			for (String x : allwindows) {
-				
-				if (!Parent.equals(x)) {
-					Driver.switchTo().window(x);
-					
-				}
-			}
-				Driver.findElement(By.xpath("//a[text()='Contact Us']"));
-				Driver.switchTo().window(Parent);
-				
-			
-			
-			
-			
-			
+			Set<String> id = Driver.getWindowHandles();
+			Iterator<String> it = id.iterator();
+			String Parent = it.next();
+			String Child = it.next();
+			Driver.switchTo().window(Child);
+			Thread.sleep(2000L);
+			Driver.switchTo().window(Parent);
 			
 			
 			
@@ -100,11 +103,7 @@ public class MightyApe {
 			FileUtils.copyFile(temp,desc);
 			
 			
-			
-			
-			
-			
-			
+				
 			
 			
 		}
